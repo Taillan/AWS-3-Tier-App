@@ -1,5 +1,5 @@
 #creating public subnet
-resource "aws_subnet" "public_subnet1" {
+resource "aws_subnet" "public_subnet_1" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.public_subnet1
   map_public_ip_on_launch = true
@@ -10,7 +10,7 @@ resource "aws_subnet" "public_subnet1" {
 }
 
 #creating private subnet
-resource "aws_subnet" "private_subnet1" {
+resource "aws_subnet" "application_subnet_1" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_subnet1
   availability_zone = var.az[0]
@@ -19,7 +19,7 @@ resource "aws_subnet" "private_subnet1" {
   }
 }
 
-resource "aws_subnet" "private_subnet2" {
+resource "aws_subnet" "application_subnet_2" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_subnet2
   availability_zone = var.az[1]
@@ -27,7 +27,7 @@ resource "aws_subnet" "private_subnet2" {
     "Name" = "private_subnet2"
   }
 }
-resource "aws_subnet" "private_subnet3" {
+resource "aws_subnet" "database_subnet_1" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_subnet3
   availability_zone = var.az[0]
@@ -35,7 +35,7 @@ resource "aws_subnet" "private_subnet3" {
     "Name" = "private_subnet3"
   }
 }
-resource "aws_subnet" "private_subnet4" {
+resource "aws_subnet" "database_subnet_2" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_subnet4
   availability_zone = var.az[1]

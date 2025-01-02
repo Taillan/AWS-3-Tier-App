@@ -2,22 +2,22 @@ output "vpc_id" {
   value = aws_vpc.main.id
 }
 
-output "vpc_public_subnet1_id" {
-    value = aws_subnet.public_subnet1.id
+output "public_subnet_1_id" {
+    value = aws_subnet.public_subnet_1.id
 }
 
-output "vpc_private_subnet1_id" {
-    value = aws_subnet.private_subnet1.id
+output "application_subnet_1_id" {
+    value = aws_subnet.application_subnet_1.id
 }
 
-output "vpc_private_subnet2_id" {
-    value = aws_subnet.private_subnet2.id
+output "application_subnet_2_id" {
+    value = aws_subnet.application_subnet_2.id
 }
 
-output "vpc_private_subnet3_id" {
-    value = aws_subnet.private_subnet3.id
+output "database_subnet_1_id" {
+    value = aws_subnet.database_subnet_1.id
 }
 
-output "vpc_private_subnet4_id" {
-    value = aws_subnet.private_subnet4.id
+output "database_subnet_2_id" {
+    value = aws_subnet.database_subnet_2.id
 }

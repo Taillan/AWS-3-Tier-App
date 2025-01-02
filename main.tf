@@ -10,14 +10,14 @@ module "network" {
 
 module "security_groups" {
   source = "./modules/security_groups"
-  vpc_id = module.vpc.vpc_id
+  vpc_id = module.network.vpc_id
 }
 
-module "ec2" {
-    source = "./modules/ec2"
-    aws_security_group_id = module.security_groups.security_group_id
-    vpc_id = module.vpc.vpc_id
-    public_subnet_id = module.vpc.vpc_public_subnet1_id
-    private_subnet1_id = module.vpc.vpc_private_subnet1_id
-    private_subnet2_id = module.vpc.vpc_private_subnet1_id
-}
+# module "ec2" {
+#     source = "./modules/ec2"
+#     aws_security_group_id = module.security_groups.security_group_id
+#     vpc_id = module.network.vpc_id
+#     public_subnet_id = module.network.public_subnet_1_id
+#     private_subnet1_id = module.network.application_subnet_1_id
+#     private_subnet2_id = module.network.application_subnet_1_id
+# }

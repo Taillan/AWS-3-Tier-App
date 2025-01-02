@@ -7,6 +7,7 @@ YTB: https://www.youtube.com/watch?v=sCBTeMd0Jj4
 ## 1 - Create Network modules
 
 This module will setup everythings we need to setup the network correctly for communicaiton between composant and with internet.
+1 - VPC for inter connection between element
 
 Include :
 - vpc
@@ -30,6 +31,10 @@ Output :
 - vpc_private_subnet4_id
 
 ## 2 - Create security groups module
+This will permit to allow ressource to use different protocol with port :
+Input trafic  : 22,80,443
+Output trafic : All
+
 Input : 
 - vpc_id
 Output :
