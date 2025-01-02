@@ -1,0 +1,19 @@
+# Local Terraform directories and files
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+
+# Backup files
+*.tfplan
+*.tfvars
+
+# Sensitive files (can be used to store environment-specific or sensitive values)
+*.auto.tfvars
+*.override.tf
+*.override.tf.json
+
+# IDE or editor specific files (optional)
+.vscode/
+.idea/
+*.swp
