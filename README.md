@@ -4,11 +4,30 @@ Github : https://github.com/DhruvinSoni30/Terraform-AWS-3tier-Architecture/tree/
 YTB: https://www.youtube.com/watch?v=sCBTeMd0Jj4
 
 # Step
-## 1 - Create VPC modules
+## 1 - Create Network modules
+
+This module will setup everythings we need to setup the network correctly for communicaiton between composant and with internet.
+
+Include :
+- vpc
+- subnet
+- Internet Gateway
+
 Input : 
 - vpc_cidr
+- public_subnet1_cidr
+- private_subnet1_cidr
+- private_subnet2_cidr
+- private_subnet3_cidr
+- private_subnet4_cidr
+
 Output :
 - vpc_id
+- vpc_public_subnet1_id
+- vpc_private_subnet1_id
+- vpc_private_subnet2_id
+- vpc_private_subnet3_id
+- vpc_private_subnet4_id
 
 ## 2 - Create security groups module
 Input : 

@@ -1,4 +1,3 @@
-
 resource  "aws_instance" "private_instance" {
     ami = var.ami_id
     instance_type = var.instance_type
