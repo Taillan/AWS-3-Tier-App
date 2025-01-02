@@ -4,5 +4,14 @@ Credit: https://medium.com/@swastikaaryal/deploy-3-tier-web-app-with-terraform-a
 YTB: https://www.youtube.com/watch?v=sCBTeMd0Jj4
 
 # Step
-## 1 - Create VPC to host all composant
-Use modules 
+## 1 - Create VPC modules
+Input : 
+- vpc_cidr
+Output :
+- vpc_id
+
+## 2 - Create security groups module
+Input : 
+- vpc_id
+Output :
+- security_group_id
