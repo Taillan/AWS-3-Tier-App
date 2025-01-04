@@ -36,3 +36,16 @@ variable "private_subnet2_id" {
 variable "public_subnet_id" {
     type = string
 }
+
+variable "user_data" {
+    type = string
+    default = "user_data.sh"
+  
+}
+
+variable "name" {
+    type = string
+    default = "EC2_Instance"
+    description = "Name of the EC2 instance"
+  
+}
