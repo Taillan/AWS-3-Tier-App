@@ -6,6 +6,7 @@ route {
       gateway_id = aws_internet_gateway.internet_gateway.id
   }
 tags = {
+    Terraform = "true"
     Name = "Terraform Route to internet"
     Owner = var.owner
   }

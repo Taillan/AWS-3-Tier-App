@@ -1,6 +1,6 @@
 variable "name" {
   type = string
-  default = "terraform-sg"
+  default = "terraform-front-sg"
   description = "Security Groups Name" 
 }
 

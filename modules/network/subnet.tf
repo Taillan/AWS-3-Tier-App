@@ -43,6 +43,7 @@ resource "aws_subnet" "database_subnet_2" {
   cidr_block        = var.private_subnet4
   availability_zone = var.az[1]
   tags = {
+    Terraform = "true"
     "Name" = "private_subnet4"
     Owner = var.owner
   }

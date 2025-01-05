@@ -21,6 +21,7 @@ resource  "aws_instance" "private_instance" {
         encrypted = false
     }
     tags ={
+        Terraform = "true"
         Name = "terraform-${var.name}"
         Owner = var.owner
     }
