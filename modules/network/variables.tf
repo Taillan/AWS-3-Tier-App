@@ -14,37 +14,37 @@ variable "az" {
   description = "Availability zone for subnets"
 }
 
-variable "public_subnet1" {
+variable "public_cidr_subnet_1" {
   type        = string
   default     = ""
   description = "Public subnet 1"
 
 }
-variable "public_subnet2" {
+variable "public_cidr_subnet_2" {
   type        = string
   default     = ""
   description = "Public subnet 2"
 
 }
-variable "application_subnet_1" {
+variable "application_cidr_subnet_1" {
   type        = string
   default     = ""
   description = "Application subnet 1"
 
 }
-variable "application_subnet_2" {
+variable "application_cidr_subnet_2" {
   type        = string
   default     = ""
   description = "Application subnet 2"
 
 }
-variable "database_subnet_1" {
+variable "database_cidr_subnet_1" {
   type        = string
   default     = ""
   description = "Database subnet 1"
 
 }
-variable "database_subnet_2" {
+variable "database_cidr_subnet_2" {
   type        = string
   default     = ""
   description = "Database subnet 2"

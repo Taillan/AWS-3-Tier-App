@@ -57,7 +57,7 @@ resource "aws_lb" "external-alb" {
   subnets            = var.elb_subnet_id_list
   access_logs {
     bucket  = var.bucket_name
-    prefix  = "terraform_alb_logs"
+    prefix  = "terraform_logs"
     enabled = true
   }
   tags = {

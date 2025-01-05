@@ -1,7 +1,7 @@
 #creating public subnet
 resource "aws_subnet" "public_subnet_1" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = var.public_subnet1
+  cidr_block              = var.public_cidr_subnet_1
   map_public_ip_on_launch = true
   availability_zone       = var.az[0]
   tags = {
@@ -13,7 +13,7 @@ resource "aws_subnet" "public_subnet_1" {
 }#creating public subnet
 resource "aws_subnet" "public_subnet_2" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = var.public_subnet2
+  cidr_block              = var.public_cidr_subnet_2
   map_public_ip_on_launch = true
   availability_zone       = var.az[1]
   tags = {
@@ -26,7 +26,7 @@ resource "aws_subnet" "public_subnet_2" {
 #creating private subnet
 resource "aws_subnet" "application_subnet_1" {
   vpc_id            = aws_vpc.main.id
-  cidr_block        = var.application_subnet_1
+  cidr_block        = var.application_cidr_subnet_1
   availability_zone = var.az[0]
   tags = {
     Terrafom = "true"
@@ -37,7 +37,7 @@ resource "aws_subnet" "application_subnet_1" {
 
 resource "aws_subnet" "application_subnet_2" {
   vpc_id            = aws_vpc.main.id
-  cidr_block        = var.application_subnet_2
+  cidr_block        = var.application_cidr_subnet_2
   availability_zone = var.az[1]
   tags = {
     Terrafom = "true"
@@ -47,7 +47,7 @@ resource "aws_subnet" "application_subnet_2" {
 }
 resource "aws_subnet" "database_subnet_1" {
   vpc_id            = aws_vpc.main.id
-  cidr_block        = var.database_subnet_1
+  cidr_block        = var.database_cidr_subnet_1
   availability_zone = var.az[0]
   tags = {
     Terrafom = "true"
@@ -57,7 +57,7 @@ resource "aws_subnet" "database_subnet_1" {
 }
 resource "aws_subnet" "database_subnet_2" {
   vpc_id            = aws_vpc.main.id
-  cidr_block        = var.database_subnet_2
+  cidr_block        = var.database_cidr_subnet_2
   availability_zone = var.az[1]
   tags = {
     Terraform = "true"
