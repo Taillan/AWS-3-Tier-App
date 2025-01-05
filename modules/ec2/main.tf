@@ -1,4 +1,4 @@
-resource  "aws_instance" "private_instance" {
+resource  "aws_instance" "instance" {
 
     # AMI ID to launch
     ami = var.ami_id

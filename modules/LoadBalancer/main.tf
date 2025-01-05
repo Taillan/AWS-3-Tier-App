@@ -2,32 +2,23 @@
 # Load Balancer target group                #
 #############################################
 resource "aws_lb_target_group" "target_elb" {
-  name     = "Terraform ALB Target Group"
+  name     = "terraform-ALB-target-group"
   port     = 80
   protocol = "HTTP"
   vpc_id   = var.vpc_id
-  health_check {
-    path                = "/"
-    protocol            = "HTTP"
-    port                = "traffic-port"
-    interval            = 30
-    timeout             = 5
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
-  }
+
   tags = {
     Terraform = "true"
     Name      = "Terraform external alb target"
     Owner     = var.owner
   }
-  
 }
 
 ###################################################
 # Target group link target_group <-> ec2.instance #
 ###################################################
-resource "aws_lb_target_group_attachment" "attachment" {
-  target_group_arn = aws_lb_target_group.external-alb.arn
+resource "aws_lb_target_group_attachment" "attachment-ec2-1" {
+  target_group_arn = aws_lb_target_group.target_elb.arn
   target_id        = var.target_list[0]
   port             = 80
 }
@@ -35,9 +26,9 @@ resource "aws_lb_target_group_attachment" "attachment" {
 ###################################################
 # Target group link target_group <-> ec2.instance #
 ###################################################
-resource "aws_lb_target_group_attachment" "attachment" {
-  target_group_arn = aws_lb_target_group.external-alb.arn
-  target_id        = aws_instance.demoinstance1.id
+resource "aws_lb_target_group_attachment" "attachment-ec2-2" {
+  target_group_arn = aws_lb_target_group.target_elb.arn
+  target_id        = var.target_list[1]
   port             = 80
 }
 
@@ -51,7 +42,7 @@ resource "aws_lb_listener" "external-alb" {
   protocol          = "HTTP"
 default_action {
   type             = "forward"
-  target_group_arn = aws_lb_target_group.external-alb.arn
+  target_group_arn = aws_lb_target_group.target_elb.arn
 }
 }
 
@@ -59,7 +50,7 @@ default_action {
 # External Application Load Balancer              #
 ###################################################
 resource "aws_lb" "external-alb" {
-  name               = "Terraform external Application Load Balancer"
+  name               = "tf-external-alb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [ var.elb_security_group_id ]

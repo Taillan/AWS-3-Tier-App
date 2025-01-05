@@ -5,7 +5,7 @@ resource "aws_security_group" "ec2-sg" {
 
   tags = {
     Terraform = "true"
-    Name  = "Terraform SG"
+    Name  = "Terraform Front SG"
     Owner = var.owner
   }
 

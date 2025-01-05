@@ -6,12 +6,12 @@ module "network" {
     source = "./modules/network"
     vpc_cidr = "10.0.0.0/16"
     owner = var.owner
-    public_subnet1  = "10.0.1.0/24"
-    public_subnet2  = "10.0.1.0/24"
-    private_subnet1 = "10.0.2.0/24"
-    private_subnet2 = "10.0.3.0/24"
-    private_subnet3 = "10.0.4.0/24"
-    private_subnet4 = "10.0.5.0/24"
+    public_subnet1        = "10.0.1.0/24"
+    public_subnet2        = "10.0.2.0/24"
+    application_subnet_1  = "10.0.3.0/24"
+    application_subnet_2  = "10.0.4.0/24"
+    database_subnet_1     = "10.0.5.0/24"
+    database_subnet_2     = "10.0.6.0/24"
 }
 
 module "front_security_groups" {
@@ -54,12 +54,13 @@ module "LoadBalancer" {
     owner = var.owner
     vpc_id = module.network.vpc_id
     elb_security_group_id = module.front_security_groups.security_group_id
-    elb_subnet_id_list = [ module.network.public_subnet_1_id, module.network.public_subnet2.id]
-    bucket_name = "terraform-logs"
-    target_list = [module.ec2_1.id, module.ec2_2.id]
+    elb_subnet_id_list = [ module.network.public_subnet_1_id, module.network.public_subnet_2_id]
+    bucket_name = "terraform-elb-logs"
+    target_list = [ module.ec2_1.ec2_id, module.ec2_2.ec2_id ]
 
     depends_on = [
-      modile.ec2
+      module.ec2_1,
+      module.ec2_2
     ]
   
 }
