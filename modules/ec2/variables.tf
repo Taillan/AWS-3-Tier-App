@@ -49,3 +49,9 @@ variable "name" {
     description = "Name of the EC2 instance"
   
 }
+
+variable "owner" {
+    type = string
+    default = "Mathieu"
+    description = "Owner of the ressource"
+}

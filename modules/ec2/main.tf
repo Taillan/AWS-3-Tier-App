@@ -22,6 +22,6 @@ resource  "aws_instance" "private_instance" {
     }
     tags ={
         Name = "terraform-${var.name}"
-        Owner = "Mathieu"
+        Owner = var.owner
     }
 }

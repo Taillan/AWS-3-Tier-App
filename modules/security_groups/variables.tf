@@ -9,3 +9,9 @@ variable "vpc_id" {
   default     = ""
   description = "VPC where we will create ec2 instance"
 }
+
+variable "owner" {
+    type = string
+    default = "Mathieu"
+    description = "Owner of the ressource"
+}

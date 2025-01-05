@@ -1,3 +1,9 @@
+variable "owner" {
+    type = string
+    default = "Mathieu"
+    description = "Owner of the ressource"
+}
+
 variable "vpc_cidr" {
     type = string
     default = "10.0.0.0/16"

@@ -6,6 +6,7 @@ resource "aws_subnet" "public_subnet_1" {
   availability_zone       = var.az[0]
   tags = {
     "Name" = "public_subnet1"
+    Owner = var.owner
   }
 }
 
@@ -16,6 +17,7 @@ resource "aws_subnet" "application_subnet_1" {
   availability_zone = var.az[0]
   tags = {
     "Name" = "private_subnet1"
+    Owner = var.owner
   }
 }
 
@@ -25,6 +27,7 @@ resource "aws_subnet" "application_subnet_2" {
   availability_zone = var.az[1]
   tags = {
     "Name" = "private_subnet2"
+    Owner = var.owner
   }
 }
 resource "aws_subnet" "database_subnet_1" {
@@ -41,5 +44,6 @@ resource "aws_subnet" "database_subnet_2" {
   availability_zone = var.az[1]
   tags = {
     "Name" = "private_subnet4"
+    Owner = var.owner
   }
 }

@@ -5,6 +5,7 @@ resource "aws_security_group" "ec2-sg" {
 
   tags = {
     Name  = "Terraform SG"
+    Owner = var.owner
   }
 
   # SSH rule
