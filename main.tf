@@ -28,7 +28,7 @@ module "db_security_groups" {
 }
 
 module "ec2_1" {
-    source = "./modules/ec2"
+    source = "./modules/ec2_instance"
     user_data = "data.sh"
     name = "Terraform EC2 Front 1"
     aws_security_group_id = module.front_security_groups.security_group_id
@@ -38,7 +38,7 @@ module "ec2_1" {
 }
 
 module "ec2_2" {
-    source = "./modules/ec2"
+    source = "./modules/ec2_instance"
     user_data = "data.sh"
     name = "Terraform EC2 Front 2"
     aws_security_group_id = module.front_security_groups.security_group_id
@@ -47,8 +47,8 @@ module "ec2_2" {
     owner = var.owner
 }
 
-module "LoadBalancer" {
-    source = "./modules/LoadBalancer"
+module "load_balancer" {
+    source = "./modules/load_balancer"
     owner = var.owner
     vpc_id = module.network.vpc_id
     elb_security_group_id = module.front_security_groups.security_group_id

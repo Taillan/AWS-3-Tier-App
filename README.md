@@ -6,7 +6,7 @@
 # Preface
 
 On each ressources tags are used :
-- Owmer -> To identified Owner. The variable value are asked at terraforn applied command
+- Owner -> To identified Owner. The variable value are asked at terraforn applied command
 - Terraform -> To identified ressource create with Terraform
 
 On AWS Console I have created a AWS Resource Groups to list them easily
@@ -41,7 +41,7 @@ A simple script is use for user_data to host a simple web page
 
 ## 4 - Load Balancer
 
-The Load Balancer Module allow to instantiate a LoadBalancer and linked it to the EC2 Instance created for the front end. The logs are published in a bucket with the good bucket policy 
+The Load Balancer Module allow to instantiate a load_balancer and linked it to the EC2 Instance created for the front end. The logs are published in a bucket with the good bucket policy 
 
 ```json
 {
