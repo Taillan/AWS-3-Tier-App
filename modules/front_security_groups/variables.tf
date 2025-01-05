@@ -11,7 +11,6 @@ variable "vpc_id" {
 }
 
 variable "owner" {
-    type = string
-    default = "Mathieu"
-    description = "Owner of the ressource"
+  type = string
+  description = "Owner of the ressource"
 }

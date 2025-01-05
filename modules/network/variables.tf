@@ -1,6 +1,5 @@
 variable "owner" {
     type = string
-    default = "Mathieu"
     description = "Owner of the ressource"
 }
 
@@ -15,38 +14,38 @@ variable "az" {
   description = "Availability zone for subnets"
 }
 
-variable "public_subnet1" {
+variable "public_cidr_subnet_1" {
   type        = string
   default     = ""
-  description = "Public CIDR subnet 1"
+  description = "Public subnet 1"
 
 }
-variable "public_subnet2" {
+variable "public_cidr_subnet_2" {
   type        = string
   default     = ""
-  description = "Public CIDR subnet 2"
+  description = "Public subnet 2"
 
 }
-variable "private_subnet1" {
+variable "application_cidr_subnet_1" {
   type        = string
   default     = ""
-  description = "Private CIDR subnet 1"
+  description = "Application subnet 1"
 
 }
-variable "private_subnet2" {
+variable "application_cidr_subnet_2" {
   type        = string
   default     = ""
-  description = "Private CIDR subnet 2"
+  description = "Application subnet 2"
 
 }
-variable "private_subnet3" {
+variable "database_cidr_subnet_1" {
   type        = string
   default     = ""
-  description = "Private CIDR subnet 3"
+  description = "Database subnet 1"
 
 }
-variable "private_subnet4" {
+variable "database_cidr_subnet_2" {
   type        = string
   default     = ""
-  description = "Private CIDR subnet 4"
+  description = "Database subnet 2"
 }
