@@ -4,6 +4,7 @@
 - YTB: https://www.youtube.com/watch?v=sCBTeMd0Jj4
 
 # Preface
+A AWS S3 Bucket is used for Terraform Backend to save the tfstate
 
 On each ressources tags are used :
 - Owner -> To identified Owner. The variable value are asked at terraforn applied command
@@ -60,3 +61,14 @@ The Load Balancer Module allow to instantiate a load_balancer and linked it to t
 }
 ```
 
+## 5 - RDS
+
+The RDS will serve to store the data.
+Password and User are define in a local terraform.tfvars to stay secret
+
+# Deploy command
+
+To deploy the architecture you can use the command 
+```bash
+terraform apply -var-file="terraform.tfvars"
+```

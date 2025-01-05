@@ -29,8 +29,8 @@ resource  "aws_instance" "instance" {
         encrypted = false
     }
     tags ={
-        Terraform = "true"
         Name = "terraform-${var.name}"
+        Terraform = "true"
         Owner = var.owner
     }
 }
