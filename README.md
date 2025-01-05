@@ -1,7 +1,8 @@
 # AWS-3-Tier-App
-- Credit: https://medium.com/@swastikaaryal/deploy-3-tier-web-app-with-terraform-ansible-and-route53-a4bc8753a1cf
+
+This Project was inspired by @SwastikaAryal and DhruvinSoni30 Works : 
+- Medium article : https://medium.com/@swastikaaryal/deploy-3-tier-web-app-with-terraform-ansible-and-route53-a4bc8753a1cf
 - Github : https://github.com/DhruvinSoni30/Terraform-AWS-3tier-Architecture/tree/main?tab=readme-ov-file
-- YTB: https://www.youtube.com/watch?v=sCBTeMd0Jj4
 
 # Preface
 A AWS S3 Bucket is used for Terraform Backend to save the tfstate
@@ -72,3 +73,7 @@ To deploy the architecture you can use the command
 ```bash
 terraform apply -var-file="terraform.tfvars"
 ```
+
+# Next Step:
+
+Deploy an Application on this by usin Ansible
