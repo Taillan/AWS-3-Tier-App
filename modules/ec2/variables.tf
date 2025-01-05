@@ -29,9 +29,9 @@ variable "private_subnet1_id" {
     type = string
 }
 
-variable "private_subnet2_id" {
-    type = string
-}
+# variable "private_subnet2_id" {
+#     type = string
+# }
 
 variable "public_subnet_id" {
     type = string
@@ -52,6 +52,5 @@ variable "name" {
 
 variable "owner" {
     type = string
-    default = "Mathieu"
     description = "Owner of the ressource"
 }

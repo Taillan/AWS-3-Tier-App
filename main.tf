@@ -5,7 +5,9 @@
 module "network" {
     source = "./modules/network"
     vpc_cidr = "10.0.0.0/16"
+    owner = var.owner
     public_subnet1  = "10.0.1.0/24"
+    public_subnet2  = "10.0.1.0/24"
     private_subnet1 = "10.0.2.0/24"
     private_subnet2 = "10.0.3.0/24"
     private_subnet3 = "10.0.4.0/24"
@@ -15,21 +17,49 @@ module "network" {
 module "front_security_groups" {
   source = "./modules/front_security_groups"
   vpc_id = module.network.vpc_id
+    owner = var.owner
 }
 
 module "db_security_groups" {
   source = "./modules/db_security_groups"
   vpc_id = module.network.vpc_id
   input_sg_id = module.front_security_groups.security_group_id
+    owner = var.owner
 }
 
-module "ec2" {
+module "ec2_1" {
     source = "./modules/ec2"
     user_data = "data.sh"
-    name = "Terraform EC2 Front"
+    name = "Terraform EC2 Front 1"
     aws_security_group_id = module.front_security_groups.security_group_id
     vpc_id = module.network.vpc_id
     public_subnet_id = module.network.public_subnet_1_id
     private_subnet1_id = module.network.application_subnet_1_id
-    private_subnet2_id = module.network.application_subnet_1_id
+    owner = var.owner
+}
+
+module "ec2_2" {
+    source = "./modules/ec2"
+    user_data = "data.sh"
+    name = "Terraform EC2 Front 2"
+    aws_security_group_id = module.front_security_groups.security_group_id
+    vpc_id = module.network.vpc_id
+    public_subnet_id = module.network.public_subnet_2_id
+    private_subnet1_id = module.network.application_subnet_1_id
+    owner = var.owner
+}
+
+module "LoadBalancer" {
+    source = "./modules/LoadBalancer"
+    owner = var.owner
+    vpc_id = module.network.vpc_id
+    elb_security_group_id = module.front_security_groups.security_group_id
+    elb_subnet_id_list = [ module.network.public_subnet_1_id, module.network.public_subnet2.id]
+    bucket_name = "terraform-logs"
+    target_list = [module.ec2_1.id, module.ec2_2.id]
+
+    depends_on = [
+      modile.ec2
+    ]
+  
 }
