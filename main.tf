@@ -26,7 +26,7 @@ module "db_security_groups" {
 module "ec2" {
     source = "./modules/ec2"
     user_data = "data.sh"
-    name = "EC2_private_Instance"
+    name = "Terraform EC2 Front"
     aws_security_group_id = module.front_security_groups.security_group_id
     vpc_id = module.network.vpc_id
     public_subnet_id = module.network.public_subnet_1_id
