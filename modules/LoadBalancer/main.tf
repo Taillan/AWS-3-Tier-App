@@ -40,10 +40,10 @@ resource "aws_lb_listener" "external-alb" {
   load_balancer_arn = aws_lb.external-alb.arn
   port              = "80"
   protocol          = "HTTP"
-default_action {
-  type             = "forward"
-  target_group_arn = aws_lb_target_group.target_elb.arn
-}
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.target_elb.arn
+  }
 }
 
 ###################################################
@@ -53,7 +53,7 @@ resource "aws_lb" "external-alb" {
   name               = "tf-external-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [ var.elb_security_group_id ]
+  security_groups    = [var.elb_security_group_id]
   subnets            = var.elb_subnet_id_list
   access_logs {
     bucket  = var.bucket_name

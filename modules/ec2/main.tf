@@ -7,7 +7,7 @@ resource  "aws_instance" "instance" {
     instance_type = var.instance_type
 
     # VPC Subnet ID to associate with
-    subnet_id = var.private_subnet1_id
+    subnet_id = var.subnet_id
 
     # Key pair name to associate with
     key_name = var.keypair

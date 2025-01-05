@@ -25,15 +25,7 @@ variable "keypair" {
   default = "EC2_Tuto_EU"
 }
 
-variable "private_subnet1_id" {
-    type = string
-}
-
-# variable "private_subnet2_id" {
-#     type = string
-# }
-
-variable "public_subnet_id" {
+variable "subnet_id" {
     type = string
 }
 

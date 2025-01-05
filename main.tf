@@ -33,8 +33,7 @@ module "ec2_1" {
     name = "Terraform EC2 Front 1"
     aws_security_group_id = module.front_security_groups.security_group_id
     vpc_id = module.network.vpc_id
-    public_subnet_id = module.network.public_subnet_1_id
-    private_subnet1_id = module.network.application_subnet_1_id
+    subnet_id = module.network.public_subnet_1_id
     owner = var.owner
 }
 
@@ -44,8 +43,7 @@ module "ec2_2" {
     name = "Terraform EC2 Front 2"
     aws_security_group_id = module.front_security_groups.security_group_id
     vpc_id = module.network.vpc_id
-    public_subnet_id = module.network.public_subnet_2_id
-    private_subnet1_id = module.network.application_subnet_1_id
+    subnet_id = module.network.public_subnet_2_id
     owner = var.owner
 }
 

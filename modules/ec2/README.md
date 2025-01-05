@@ -29,8 +29,7 @@ No modules.
 | <a name="input_keypair"></a> [keypair](#input\_keypair) | n/a | `string` | `"EC2_Tuto_EU"` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the EC2 instance | `string` | `"EC2_Instance"` | no |
 | <a name="input_owner"></a> [owner](#input\_owner) | Owner of the ressource | `string` | n/a | yes |
-| <a name="input_private_subnet1_id"></a> [private\_subnet1\_id](#input\_private\_subnet1\_id) | n/a | `string` | n/a | yes |
-| <a name="input_public_subnet_id"></a> [public\_subnet\_id](#input\_public\_subnet\_id) | n/a | `string` | n/a | yes |
+| <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | n/a | `string` | n/a | yes |
 | <a name="input_user_data"></a> [user\_data](#input\_user\_data) | n/a | `string` | `"user_data.sh"` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | Vpc id associate to EC2 instance | `string` | `""` | no |
 

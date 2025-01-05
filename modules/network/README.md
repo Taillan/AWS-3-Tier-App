@@ -20,6 +20,7 @@ No modules.
 | [aws_internet_gateway.internet_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway) | resource |
 | [aws_route_table.route](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
 | [aws_route_table_association.rt1](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource |
+| [aws_route_table_association.rt2](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource |
 | [aws_subnet.application_subnet_1](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
 | [aws_subnet.application_subnet_2](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
 | [aws_subnet.database_subnet_1](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
@@ -32,14 +33,14 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_application_subnet_1"></a> [application\_subnet\_1](#input\_application\_subnet\_1) | Application subnet 1 | `string` | `""` | no |
-| <a name="input_application_subnet_2"></a> [application\_subnet\_2](#input\_application\_subnet\_2) | Application subnet 2 | `string` | `""` | no |
+| <a name="input_application_cidr_subnet_1"></a> [application\_cidr\_subnet\_1](#input\_application\_cidr\_subnet\_1) | Application subnet 1 | `string` | `""` | no |
+| <a name="input_application_cidr_subnet_2"></a> [application\_cidr\_subnet\_2](#input\_application\_cidr\_subnet\_2) | Application subnet 2 | `string` | `""` | no |
 | <a name="input_az"></a> [az](#input\_az) | Availability zone for subnets | `list` | <pre>[<br/>  "eu-west-3a",<br/>  "eu-west-3b",<br/>  "eu-west-3c"<br/>]</pre> | no |
-| <a name="input_database_subnet_1"></a> [database\_subnet\_1](#input\_database\_subnet\_1) | Database subnet 1 | `string` | `""` | no |
-| <a name="input_database_subnet_2"></a> [database\_subnet\_2](#input\_database\_subnet\_2) | Database subnet 2 | `string` | `""` | no |
+| <a name="input_database_cidr_subnet_1"></a> [database\_cidr\_subnet\_1](#input\_database\_cidr\_subnet\_1) | Database subnet 1 | `string` | `""` | no |
+| <a name="input_database_cidr_subnet_2"></a> [database\_cidr\_subnet\_2](#input\_database\_cidr\_subnet\_2) | Database subnet 2 | `string` | `""` | no |
 | <a name="input_owner"></a> [owner](#input\_owner) | Owner of the ressource | `string` | n/a | yes |
-| <a name="input_public_subnet1"></a> [public\_subnet1](#input\_public\_subnet1) | Public subnet 1 | `string` | `""` | no |
-| <a name="input_public_subnet2"></a> [public\_subnet2](#input\_public\_subnet2) | Public subnet 2 | `string` | `""` | no |
+| <a name="input_public_cidr_subnet_1"></a> [public\_cidr\_subnet\_1](#input\_public\_cidr\_subnet\_1) | Public subnet 1 | `string` | `""` | no |
+| <a name="input_public_cidr_subnet_2"></a> [public\_cidr\_subnet\_2](#input\_public\_cidr\_subnet\_2) | Public subnet 2 | `string` | `""` | no |
 | <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | VPC cidr | `string` | `"10.0.0.0/16"` | no |
 
 ## Outputs
