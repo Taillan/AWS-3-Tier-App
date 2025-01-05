@@ -6,7 +6,7 @@ route {
       gateway_id = aws_internet_gateway.internet_gateway.id
   }
 tags = {
-      Name = "Route to internet"
+      Name = "Terraform Route to internet"
   }
 }
 

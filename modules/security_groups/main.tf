@@ -3,6 +3,10 @@ resource "aws_security_group" "ec2-sg" {
   description = "EC2 Security Group"
   vpc_id      = var.vpc_id
 
+  tags = {
+    Name  = "Terraform SG"
+  }
+
   # SSH rule
   ingress {
     from_port   = 22
