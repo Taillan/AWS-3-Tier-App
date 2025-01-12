@@ -30,6 +30,8 @@ For this purpose, we have chosen the following architecture:
 
 An AWS S3 bucket is used as the Terraform backend to store the tfstate.
 
+And the AWS provider are configured too.
+
 **providers.tf**
 ```hcl
 terraform {
@@ -38,12 +40,14 @@ terraform {
     key    = "terraform"
     region = "eu-west-3"
   }
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.82.2"
+    }
+  }
 }
-```
 
-And the AWS provider are configured too
-
-```hcl
 # Configure the AWS Provider
 provider "aws" {
   region  = "eu-west-3"
