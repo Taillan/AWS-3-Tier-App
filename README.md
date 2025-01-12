@@ -74,7 +74,7 @@ Include :
 
 ### NetWork Subdivision
 
-#### The VPC and subnets
+#### The VPC
 
 The file vpc.tf creates an AWS VPC, a logically isolated network within AWS.
 ```hcl
@@ -88,6 +88,7 @@ resource "aws_vpc" "main" {
 }
 ```
 
+#### The subnets
 After creating the VPC, we create different subnets. Each subnet has a duplicate in a different availability zone (AZ) to ensure **High Availability**
 ```hcl
 resource "aws_subnet" "public_subnet_1" {
@@ -105,10 +106,11 @@ resource "aws_subnet" "public_subnet_1" {
 
 The subnet is public due to the ``map_public_ip_on_launch`` option, which exposes it for the Load Balancer. Other subnets remain private, as defined in the architecture.
 
-#### The IGW and Route Tables
-
+### The internet access
 The public subnets are linked to a route table connected to an Internet Gateway (IGW). This is essential for allowing FrontEnd EC2 instances within those subnets to communicate with the internet.
 
+
+#### The IGW
 First, create the IGW
 ```hcl
 # Creating Internet Gateway 
@@ -123,6 +125,7 @@ resource "aws_internet_gateway" "internet_gateway" {
 }
 ```
 
+#### The Route Tables
 Then create the route table and associate it with the IGW:
 
 ```hcl
