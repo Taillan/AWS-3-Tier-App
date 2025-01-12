@@ -6,8 +6,8 @@ module "network" {
     source = "./modules/network"
     vpc_cidr = "10.0.0.0/16"
     owner = var.owner
-    public_cidr_subnet_1        = "10.0.1.0/24"
-    public_cidr_subnet_2        = "10.0.2.0/24"
+    public_cidr_subnet_1       = "10.0.1.0/24"
+    public_cidr_subnet_2       = "10.0.2.0/24"
     application_cidr_subnet_1  = "10.0.3.0/24"
     application_cidr_subnet_2  = "10.0.4.0/24"
     database_cidr_subnet_1     = "10.0.5.0/24"
