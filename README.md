@@ -1,33 +1,37 @@
 # AWS-3-Tier
 
-This Project was inspired by [SwastikaAryal](https://medium.com/@swastikaaryal/deploy-3-tier-web-app-with-terraform-ansible-and-route53-a4bc8753a1cf) and [DhruvinSoni30](https://github.com/DhruvinSoni30/Terraform-AWS-3tier-Architecture/tree/main?tab=readme-ov-file) works.
+This project was inspired by [SwastikaAryal](https://medium.com/@swastikaaryal/deploy-3-tier-web-app-with-terraform-ansible-and-route53-a4bc8753a1cf) and [DhruvinSoni30](https://github.com/DhruvinSoni30/Terraform-AWS-3tier-Architecture/tree/main?tab=readme-ov-file).
+
 # Preface
 
 ## What's AWS and Terraform
-**Amazon Web Services (AWS)** is a comprehensive and widely adopted cloud platform that offers a variety of services such as computing power, storage, and databases. AWS enables businesses to scale and grow by providing on-demand resources and services.
 
-**Terraform** is an open-source infrastructure as code (IaC) tool developed by HashiCorp. It allows users to define and provision infrastructure using a high-level configuration language. Terraform enabling users to manage their infrastructure in a consistent and repeatable manner.
+**Amazon Web Services (AWS)** is a comprehensive and widely adopted cloud platform that offers various services, such as computing power, storage, and databases. AWS enables businesses to scale and grow by providing on-demand resources and services.
+
+**Terraform** is an open-source Infrastructure as Code (IaC) tool developed by HashiCorp. It allows users to define and provision infrastructure using a high-level configuration language, enabling users to manage their infrastructure in a consistent and repeatable manner.
 
 When used together, AWS and Terraform provide a powerful combination for managing cloud infrastructure. Terraform allows you to define your AWS resources in code. By applying these configurations, Terraform interacts with AWS APIs to create, update, and delete resources as specified in the code. This approach ensures that your infrastructure is always in the desired state and can be easily replicated across different environments.
 
 ## Repository Goal
 
-This repository aim is to deploy a three tiers application Infrastructure :
+The goal of this repository is to deploy a three-tier application infrastructure:
 
-1. Front-end tier who will present the application to the user.
-2. Back-end tier who make the link between database and Frontend.
-3. DataBase tier where all the data will be stored.
+1. Front-end tier: The interface presented to the user.
+2. Back-end tier: Connects the database and the front-end.
+3. Database tier: Where all the data is stored.
 
-For this goals we have choice the following architecture : 
+For this purpose, we have chosen the following architecture:
 
 ![InfraSchema](assets/Infra.drawio.svg)
 
-## Technical details
+## Technical Details
+
 ### Terraform Backend
-An AWS S3 Bucket is used for Terraform Backend to save the tfstate
+
+An AWS S3 bucket is used as the Terraform backend to store the tfstate.
 
 **providers.tf**
-```hcl providers.tf
+```hcl
 terraform {
   backend "s3" {
     bucket = "taillan-terraform-backend"
@@ -38,8 +42,8 @@ terraform {
 ```
 
 On each ressources tags are used :
-- Owner -> To identified Owner. The variable value are asked at terraforn applied command
-- Terraform -> To identified ressource create with Terraform
+- **Owner**: Identifies the owner. The value is asked during the ``terraform apply`` command if not defined in the terraform.tfvars provisioned.
+- **Terraform**: Identifies the resource created by Terraform.
 
 ```hcl
     tags ={
@@ -49,14 +53,16 @@ On each ressources tags are used :
     }
 ```
 
-This allow on AWS Console to created a AWS Resource Groups to list them easily.
+This allows the creation of an AWS Resource Group in the AWS Console to easily list resources.
+
 
 # Step
 
 ## 1 - Create Network modules
 
-This module will setup everythings we need to setup the network correctly for communicaiton between composant and with internet.
-1 - VPC for inter connection between element
+This module sets up everything needed to establish the network for communication between components and with the internet.
+
+1 - VPC for interconnection between elements.
 
 Include :
 - Network subdivision
@@ -70,8 +76,7 @@ Include :
 
 #### The VPC and subnets
 
-This file vpc.tf will create an AWS VPC a logically isolated network within the Amazon Web Services (AWS) cloud.
-
+The file vpc.tf creates an AWS VPC, a logically isolated network within AWS.
 ```hcl
 resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr
@@ -83,8 +88,7 @@ resource "aws_vpc" "main" {
 }
 ```
 
-After we create the different subnets. Each subnet have a duplicate one in a different AZ to assure **High Avaibility**
-
+After creating the VPC, we create different subnets. Each subnet has a duplicate in a different availability zone (AZ) to ensure **High Availability**
 ```hcl
 resource "aws_subnet" "public_subnet_1" {
   vpc_id                  = aws_vpc.main.id
@@ -98,13 +102,13 @@ resource "aws_subnet" "public_subnet_1" {
   }
 ```
 
-The subnet is public due to the ``map_public_ip_on_launch`` option who will expose it. It will be necessary for the LoadBalancer. For the other subnet thei're not exposed and stay private as define in the architecture.
+The subnet is public due to the ``map_public_ip_on_launch`` option, which exposes it for the Load Balancer. Other subnets remain private, as defined in the architecture.
 
-#### The IGW and route tables
+#### The IGW and Route Tables
 
-The public subnets are link with a route table to an Internet Gateway (IGW). it's essential to allow our FrontEnd EC2 instances within those subnets to communicate with the internet.
+The public subnets are linked to a route table connected to an Internet Gateway (IGW). This is essential for allowing FrontEnd EC2 instances within those subnets to communicate with the internet.
 
-First we create the IGW
+First, create the IGW
 ```hcl
 # Creating Internet Gateway 
 resource "aws_internet_gateway" "internet_gateway" {
@@ -118,7 +122,7 @@ resource "aws_internet_gateway" "internet_gateway" {
 }
 ```
 
-Then we create route table to associate subnet with the IGW
+Then create the route table and associate it with the IGW:
 
 ```hcl
 # Creating Route Table
@@ -144,11 +148,12 @@ resource "aws_route_table_association" "rt1" {
 
 ## 2 - Create security groups module
 
-Security groups in AWS is the ressource who define Traffic rules. We have to create 2 differents
+Security groups in AWS define traffic rules. We need to create two different security groups:
 
 ### Front End SG module
 
-This will permit to allow ressource to use different protocol with port :
+This allows resources to use different protocols with the following ports:
+
 Input trafic  : 22,80,443
 Output trafic : All
 
@@ -199,7 +204,7 @@ resource "aws_security_group" "ec2-sg" {
 ```
 
 ### Database SG module
-This will permit to communicate with DB by allowing inbound traffic from application identified by the security group id and outbound traffic from all the port
+This allows communication with the DB by allowing inbound traffic from the application, identified by the security group ID, and outbound traffic on all ports.
 
 ```hcl
 resource "aws_security_group" "ec2-sg" {
@@ -234,9 +239,9 @@ resource "aws_security_group" "ec2-sg" {
 
 ## 3 - Create the EC2 instance module
 
-The EC2 Instance is a web service that provides scalable, resizable, and secure virtual servers in the cloud. 
+EC2 instances are virtual servers that provide scalable and secure cloud-based computing.
 
-We attach a simple script is use for user_data to host a simple web page for the FrontEnd instance and a simple script who update package for BackEnd instance.
+We use a simple script for user_data to host a simple web page for the FrontEnd instance and update packages for the BackEnd instance.
 
 All the value have defaut value defined in variables.tf
 
@@ -281,11 +286,9 @@ resource  "aws_instance" "instance" {
 
 ## 4 - Load Balancer module
 
-An Amazon Load Balancer (LB) is a managed service that distributes incoming network or application traffic across multiple targets, such as EC2 instances on multiple Avaibility Zones.
+he Amazon Load Balancer (LB) distributes incoming traffic across multiple targets, such as EC2 instances in different availability zones.
 
-The Load Balancer Module allow to instantiate a load_balancer and linked it to the EC2 Instance created for the front end. 
-
-The logs are published in a bucket with the good bucket policy :
+The Load Balancer module creates a load balancer and links it to the EC2 instances for the front end. The logs are stored in a bucket with the correct bucket policy:
 ```json
 {
     "Version": "2012-10-17",
@@ -303,7 +306,8 @@ The logs are published in a bucket with the good bucket policy :
 }
 ```
 
-The terraform file who define the load balancer module:
+The Terraform file defining the load balancer:
+
 ```hcl
 # Load Balancer target group
 resource "aws_lb_target_group" "target_elb" {
@@ -409,6 +413,6 @@ terraform apply -var-file="terraform.tfvars"
 
 # Next Step:
 
-Deploy an Application on this Infrastructure by using Ansible who connect to remote target and execute a playbooks.
+Deploy an application on this infrastructure using Ansible, which will connect to remote targets and execute playbooks.
 
-We could imagine too to use a scale group for the FrontEnd and BackEnd instance
+Additionally, you could scale the FrontEnd and BackEnd instances using an Auto Scaling Group.
