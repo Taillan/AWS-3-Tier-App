@@ -119,6 +119,7 @@ resource "aws_internet_gateway" "internet_gateway" {
 ```
 
 Then we create route table to associate subnet with the IGW
+
 ```json
 # Creating Route Table
 resource "aws_route_table" "route" {
@@ -143,20 +144,95 @@ resource "aws_route_table_association" "rt1" {
 
 ## 2 - Create security groups module
 
-Security groups in AWS is the ressource who define Traffic rules.
+Security groups in AWS is the ressource who define Traffic rules. We have to create 2 differents
 
-### Front End SG
+### Front End SG module
 
 This will permit to allow ressource to use different protocol with port :
 Input trafic  : 22,80,443
 Output trafic : All
 
-### Database SG
+```json
+resource "aws_security_group" "ec2-sg" {
+  name        = var.name
+  description = "EC2 Security Group"
+  vpc_id      = var.vpc_id
+
+  tags = {
+    Terraform = "true"
+    Name  = "Terraform Front SG"
+    Owner = var.owner
+  }
+
+  # SSH rule
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # HTTP rule
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # HTTPS rule
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Outbound rule to allow all traffic
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+```
+
+### Database SG module
 This will permit to communicate with DB by allowing inbound traffic from application identified by the security group id and outbound traffic from all the port
 
-## 3 - Create the Front End instance
+```json
+resource "aws_security_group" "ec2-sg" {
+  name        = var.name
+  description = "Allow inbound traffic from application layer"
+  vpc_id      = var.vpc_id
 
-Thanks to module EC2 the tf file create 2 instance on 2 differente AZ. This instance are associated to the VPC and the respective public subnet create precedently. It will be usefull for Load Balancer
+  tags = {
+    Name  = "Terraform DB SG"
+    Terraform = "true"
+    Owner = var.owner
+  }
+
+  # Allow inbound traffic from application identified by the security group id
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    description = "Allow inbound traffic from application layer"
+    security_groups = [var.input_sg_id] 
+  }
+
+  # Allow outbound traffic from all the port between 32768 and 65535
+  egress{
+    from_port = 32768
+    to_port = 65535
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] 
+  }
+}
+```
+
+## 3 - Create the instance module
 
 A simple script is use for user_data to host a simple web page
 
