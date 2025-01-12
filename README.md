@@ -105,7 +105,7 @@ The subnet is public due to the ``map_public_ip_on_launch`` option who will expo
 The public subnets are link with a route table to an Internet Gateway (IGW). it's essential to allow our FrontEnd EC2 instances within those subnets to communicate with the internet.
 
 First we create the IGW
-```json
+```hcl
 # Creating Internet Gateway 
 resource "aws_internet_gateway" "internet_gateway" {
   vpc_id = aws_vpc.main.id
@@ -201,7 +201,7 @@ resource "aws_security_group" "ec2-sg" {
 ### Database SG module
 This will permit to communicate with DB by allowing inbound traffic from application identified by the security group id and outbound traffic from all the port
 
-```json
+```hcl
 resource "aws_security_group" "ec2-sg" {
   name        = var.name
   description = "Allow inbound traffic from application layer"
@@ -232,9 +232,11 @@ resource "aws_security_group" "ec2-sg" {
 }
 ```
 
-## 3 - Create the instance module
+## 3 - Create the EC2 instance module
 
-A simple script is use for user_data to host a simple web page
+The EC2 Instance is a web service that provides scalable, resizable, and secure virtual servers in the cloud. 
+
+We attach a simple script is use for user_data to host a simple web page
 
 ## 4 - Load Balancer
 

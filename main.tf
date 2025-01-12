@@ -29,7 +29,7 @@ module "db_security_groups" {
 
 module "Frontend_1" {
     source = "./modules/ec2_instance"
-    user_data = "data.sh"
+    user_data = "FrontEnd.sh"
     name = "Terraform EC2 Front 1"
     aws_security_group_id = module.front_security_groups.id
     vpc_id = module.network.vpc_id
@@ -39,7 +39,7 @@ module "Frontend_1" {
 
 module "Frontend_2" {
     source = "./modules/ec2_instance"
-    user_data = "data.sh"
+    user_data = "FrontEnd.sh"
     name = "Terraform EC2 Front 2"
     aws_security_group_id = module.front_security_groups.id
     vpc_id = module.network.vpc_id
@@ -49,7 +49,7 @@ module "Frontend_2" {
 
 module "BackeEnd_1" {
     source = "./modules/ec2_instance"
-    user_data = "data.sh"
+    user_data = "BackEnd.sh"
     name = "Terraform EC2 Back 1"
     aws_security_group_id = module.front_security_groups.id
     vpc_id = module.network.vpc_id
@@ -59,7 +59,7 @@ module "BackeEnd_1" {
 
 module "BackeEnd_2" {
     source = "./modules/ec2_instance"
-    user_data = "data.sh"
+    user_data = "BackEnd.sh"
     name = "Terraform EC2 Back 2"
     aws_security_group_id = module.front_security_groups.id
     vpc_id = module.network.vpc_id
