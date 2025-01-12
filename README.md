@@ -100,6 +100,7 @@ resource "aws_subnet" "public_subnet_1" {
     "Name" = "Terraform public subnet 1"
     Owner = var.owner
   }
+}
 ```
 
 The subnet is public due to the ``map_public_ip_on_launch`` option, which exposes it for the Load Balancer. Other subnets remain private, as defined in the architecture.
