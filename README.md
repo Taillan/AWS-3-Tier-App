@@ -202,7 +202,34 @@ resource "aws_security_group" "ec2-sg" {
 This will permit to communicate with DB by allowing inbound traffic from application identified by the security group id and outbound traffic from all the port
 
 ```hcl
-modules/ec2_instance/main.tf
+resource "aws_security_group" "ec2-sg" {
+  name        = var.name
+  description = "Allow inbound traffic from application layer"
+  vpc_id      = var.vpc_id
+
+  tags = {
+    Name  = "Terraform DB SG"
+    Terraform = "true"
+    Owner = var.owner
+  }
+
+  # Allow inbound traffic from application identified by the security group id
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    description = "Allow inbound traffic from application layer"
+    security_groups = [var.input_sg_id] 
+  }
+
+  # Allow outbound traffic from all the port between 32768 and 65535
+  egress{
+    from_port = 32768
+    to_port = 65535
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] 
+  }
+}
 ```
 
 ## 3 - Create the EC2 instance module
@@ -383,3 +410,5 @@ terraform apply -var-file="terraform.tfvars"
 # Next Step:
 
 Deploy an Application on this Infrastructure by using Ansible who connect to remote target and execute a playbooks.
+
+We could imagine too to use a scale group for the FrontEnd and BackEnd instance
