@@ -202,46 +202,63 @@ resource "aws_security_group" "ec2-sg" {
 This will permit to communicate with DB by allowing inbound traffic from application identified by the security group id and outbound traffic from all the port
 
 ```hcl
-resource "aws_security_group" "ec2-sg" {
-  name        = var.name
-  description = "Allow inbound traffic from application layer"
-  vpc_id      = var.vpc_id
-
-  tags = {
-    Name  = "Terraform DB SG"
-    Terraform = "true"
-    Owner = var.owner
-  }
-
-  # Allow inbound traffic from application identified by the security group id
-  ingress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    description = "Allow inbound traffic from application layer"
-    security_groups = [var.input_sg_id] 
-  }
-
-  # Allow outbound traffic from all the port between 32768 and 65535
-  egress{
-    from_port = 32768
-    to_port = 65535
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] 
-  }
-}
+modules/ec2_instance/main.tf
 ```
 
 ## 3 - Create the EC2 instance module
 
 The EC2 Instance is a web service that provides scalable, resizable, and secure virtual servers in the cloud. 
 
-We attach a simple script is use for user_data to host a simple web page
+We attach a simple script is use for user_data to host a simple web page for the FrontEnd instance and a simple script who update package for BackEnd instance.
 
-## 4 - Load Balancer
+All the value have defaut value defined in variables.tf
 
-The Load Balancer Module allow to instantiate a load_balancer and linked it to the EC2 Instance created for the front end. The logs are published in a bucket with the good bucket policy 
+```hcl
+resource  "aws_instance" "instance" {
 
+    # AMI ID to launch
+    ami = var.ami_id
+
+    # Instance type ( fe: t2.micro )
+    instance_type = var.instance_type
+
+    # VPC Subnet ID to associate with
+    subnet_id = var.subnet_id
+
+    # Key pair name to associate with
+    key_name = var.keypair
+
+    # List of security group names to associate with
+    vpc_security_group_ids = [var.aws_security_group_id]
+    
+    # User data to provide when launching instance
+    # user_data is a file containing the script to install web server
+    user_data = file(var.user_data)
+    
+    # Associate a public IP address with the instance
+    associate_public_ip_address = true
+
+    # Block device mapping ( EBS volume )
+    root_block_device {
+        volume_size = 8
+        volume_type = "gp3"
+        encrypted = false
+    }
+    tags ={
+        Name = "terraform-${var.name}"
+        Terraform = "true"
+        Owner = var.owner
+    }
+}
+```
+
+## 4 - Load Balancer module
+
+An Amazon Load Balancer (LB) is a managed service that distributes incoming network or application traffic across multiple targets, such as EC2 instances on multiple Avaibility Zones.
+
+The Load Balancer Module allow to instantiate a load_balancer and linked it to the EC2 Instance created for the front end. 
+
+The logs are published in a bucket with the good bucket policy :
 ```json
 {
     "Version": "2012-10-17",
@@ -259,10 +276,102 @@ The Load Balancer Module allow to instantiate a load_balancer and linked it to t
 }
 ```
 
+The terraform file who define the load balancer module:
+```hcl
+# Load Balancer target group
+resource "aws_lb_target_group" "target_elb" {
+  name     = "terraform-ALB-target-group"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+
+  tags = {
+    Terraform = "true"
+    Name      = "Terraform external alb target"
+    Owner     = var.owner
+  }
+}
+
+
+# Target group link target_group <-> ec2.instance 
+resource "aws_lb_target_group_attachment" "attachment-ec2-1" {
+  target_group_arn = aws_lb_target_group.target_elb.arn
+  target_id        = var.target_list[0]
+  port             = 80
+}
+
+# Target group link target_group <-> ec2.instance
+resource "aws_lb_target_group_attachment" "attachment-ec2-2" {
+  target_group_arn = aws_lb_target_group.target_elb.arn
+  target_id        = var.target_list[1]
+  port             = 80
+}
+
+
+# Listener define listen port on alb add action
+resource "aws_lb_listener" "external-alb" {
+  load_balancer_arn = aws_lb.external-alb.arn
+  port              = "80"
+  protocol          = "HTTP"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.target_elb.arn
+  }
+}
+
+# External Application Load Balancer
+resource "aws_lb" "external-alb" {
+  name               = "tf-external-alb"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [var.elb_security_group_id]
+  subnets            = var.elb_subnet_id_list
+  access_logs {
+    bucket  = var.bucket_name
+    prefix  = "terraform_logs"
+    enabled = true
+  }
+  tags = {
+    Terraform = "true"
+    Name      = "terraform external Application Load Balancer"
+    Owner     = var.owner
+  }
+}
+```
+
 ## 5 - RDS
 
-The RDS will serve to store the data.
+The RDS is a database who serve to store the application data.
 Password and User are define in a local terraform.tfvars to stay secret
+
+With this terraform ressource a standby DB Instance is create to provide high avaibility, data redundancy. To increase capacity to serve read workload we should enable RDS cluster.
+
+```hcl 
+# Creating RDS Instance
+resource "aws_db_subnet_group" "database_subnet" {
+    name       = var.db_subnet_group_name
+    subnet_ids = var.database_subnet_id_list
+    tags = {
+        Name = "My DB subnet group"
+        Terraform = "true"
+        Owner = var.owner
+    }
+}
+
+resource "aws_db_instance" "default" {
+    allocated_storage      = 10
+    db_subnet_group_name   = aws_db_subnet_group.database_subnet.id
+    engine                 = "mysql"
+    engine_version         = "8.0.39"
+    instance_class         = "db.t3.micro"
+    multi_az               = true
+    db_name                = var.db_name
+    username               = var.db_username
+    password               = var.db_password
+    skip_final_snapshot    = true
+    vpc_security_group_ids = var.database-sg
+}   
+```
 
 # Deploy command
 
@@ -273,4 +382,4 @@ terraform apply -var-file="terraform.tfvars"
 
 # Next Step:
 
-Deploy an Application on this by usin Ansible
+Deploy an Application on this Infrastructure by using Ansible who connect to remote target and execute a playbooks.

@@ -47,7 +47,7 @@ module "Frontend_2" {
     owner = var.owner
 }
 
-module "BackeEnd_1" {
+module "BackEnd_1" {
     source = "./modules/ec2_instance"
     user_data = "BackEnd.sh"
     name = "Terraform EC2 Back 1"
@@ -57,7 +57,7 @@ module "BackeEnd_1" {
     owner = var.owner
 }
 
-module "BackeEnd_2" {
+module "BackEnd_2" {
     source = "./modules/ec2_instance"
     user_data = "BackEnd.sh"
     name = "Terraform EC2 Back 2"
@@ -84,7 +84,6 @@ module "load_balancer" {
 }
 
 module "rds" {
-    count = 0
     source = "./modules/rds"
     db_subnet_group_name = "main"
     db_name = "mydb"
