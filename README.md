@@ -41,6 +41,16 @@ terraform {
 }
 ```
 
+And the AWS provider are configured too
+
+```hcl
+# Configure the AWS Provider
+provider "aws" {
+  region  = "eu-west-3"
+  profile = "default"
+}
+```
+
 On each ressources tags are used :
 - **Owner**: Identifies the owner. The value is asked during the ``terraform apply`` command if not defined in the terraform.tfvars provisioned.
 - **Terraform**: Identifies the resource created by Terraform.
