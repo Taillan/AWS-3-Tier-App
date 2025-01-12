@@ -27,7 +27,7 @@ For this goals we have choice the following architecture :
 An AWS S3 Bucket is used for Terraform Backend to save the tfstate
 
 **providers.tf**
-```json providers.tf
+```hcl providers.tf
 terraform {
   backend "s3" {
     bucket = "taillan-terraform-backend"
@@ -41,7 +41,7 @@ On each ressources tags are used :
 - Owner -> To identified Owner. The variable value are asked at terraforn applied command
 - Terraform -> To identified ressource create with Terraform
 
-```json
+```hcl
     tags ={
         Name = "terraform-${var.name}"
         Terraform = "true"
@@ -72,7 +72,7 @@ Include :
 
 This file vpc.tf will create an AWS VPC a logically isolated network within the Amazon Web Services (AWS) cloud.
 
-```json
+```hcl
 resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr
   tags = {
@@ -85,7 +85,7 @@ resource "aws_vpc" "main" {
 
 After we create the different subnets. Each subnet have a duplicate one in a different AZ to assure **High Avaibility**
 
-```json
+```hcl
 resource "aws_subnet" "public_subnet_1" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.public_cidr_subnet_1
@@ -120,7 +120,7 @@ resource "aws_internet_gateway" "internet_gateway" {
 
 Then we create route table to associate subnet with the IGW
 
-```json
+```hcl
 # Creating Route Table
 resource "aws_route_table" "route" {
   vpc_id = aws_vpc.main.id
@@ -152,7 +152,7 @@ This will permit to allow ressource to use different protocol with port :
 Input trafic  : 22,80,443
 Output trafic : All
 
-```json
+```hcl
 resource "aws_security_group" "ec2-sg" {
   name        = var.name
   description = "EC2 Security Group"
