@@ -27,7 +27,7 @@ module "db_security_groups" {
     owner = var.owner
 }
 
-module "ec2_1" {
+module "Frontend_1" {
     source = "./modules/ec2_instance"
     user_data = "data.sh"
     name = "Terraform EC2 Front 1"
@@ -37,7 +37,7 @@ module "ec2_1" {
     owner = var.owner
 }
 
-module "ec2_2" {
+module "Frontend_2" {
     source = "./modules/ec2_instance"
     user_data = "data.sh"
     name = "Terraform EC2 Front 2"
@@ -47,23 +47,44 @@ module "ec2_2" {
     owner = var.owner
 }
 
+module "BackeEnd_1" {
+    source = "./modules/ec2_instance"
+    user_data = "data.sh"
+    name = "Terraform EC2 Back 1"
+    aws_security_group_id = module.front_security_groups.id
+    vpc_id = module.network.vpc_id
+    subnet_id = module.network.application_subnet_1_id
+    owner = var.owner
+}
+
+module "BackeEnd_2" {
+    source = "./modules/ec2_instance"
+    user_data = "data.sh"
+    name = "Terraform EC2 Back 2"
+    aws_security_group_id = module.front_security_groups.id
+    vpc_id = module.network.vpc_id
+    subnet_id = module.network.application_subnet_2_id
+    owner = var.owner
+}
+
 module "load_balancer" {
     source = "./modules/load_balancer"
     owner = var.owner
     vpc_id = module.network.vpc_id
     elb_security_group_id = module.front_security_groups.id
-    elb_subnet_id_list = [ module.network.public_subnet_1_id, module.network.public_subnet_2_id]
+    elb_subnet_id_list = [ module.network.public_subnet_1_id,module.network.public_subnet_2_id] #, module.network.public_subnet_2_id]
     bucket_name = "terraform-elb-logs"
-    target_list = [ module.ec2_1.ec2_id, module.ec2_2.ec2_id ]
+    target_list = [ module.Frontend_1.ec2_id, module.Frontend_2.ec2_id ]
 
     depends_on = [
-      module.ec2_1,
-      module.ec2_2
+      module.Frontend_1,
+      module.Frontend_2
     ]
   
 }
 
 module "rds" {
+    count = 0
     source = "./modules/rds"
     db_subnet_group_name = "main"
     db_name = "mydb"

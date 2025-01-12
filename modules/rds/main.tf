@@ -20,4 +20,4 @@ resource "aws_db_instance" "default" {
     password               = var.db_password
     skip_final_snapshot    = true
     vpc_security_group_ids = var.database-sg
-}
+}   

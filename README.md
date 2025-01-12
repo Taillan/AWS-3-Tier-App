@@ -1,10 +1,28 @@
-# AWS-3-Tier-App
+# AWS-3-Tier
 
-This Project was inspired by @SwastikaAryal and DhruvinSoni30 Works : 
-- Medium article : https://medium.com/@swastikaaryal/deploy-3-tier-web-app-with-terraform-ansible-and-route53-a4bc8753a1cf
-- Github : https://github.com/DhruvinSoni30/Terraform-AWS-3tier-Architecture/tree/main?tab=readme-ov-file
-
+This Project was inspired by [SwastikaAryal](https://medium.com/@swastikaaryal/deploy-3-tier-web-app-with-terraform-ansible-and-route53-a4bc8753a1cf) and [DhruvinSoni30](https://github.com/DhruvinSoni30/Terraform-AWS-3tier-Architecture/tree/main?tab=readme-ov-file) works.
 # Preface
+
+## What's AWS and Terraform
+**Amazon Web Services (AWS)** is a comprehensive and widely adopted cloud platform that offers a variety of services such as computing power, storage, and databases. AWS enables businesses to scale and grow by providing on-demand resources and services.
+
+**Terraform** is an open-source infrastructure as code (IaC) tool developed by HashiCorp. It allows users to define and provision data center infrastructure using a high-level configuration language. Terraform enabling users to manage their infrastructure in a consistent and repeatable manner.
+
+When used together, AWS and Terraform provide a powerful combination for managing cloud infrastructure. Terraform allows you to define your AWS resources in code. By applying these configurations, Terraform interacts with AWS APIs to create, update, and delete resources as specified in the code. This approach ensures that your infrastructure is always in the desired state and can be easily replicated across different environments.
+
+## Repository Goal
+
+This repository aim is to deploy a three tiers application Infrastructure :
+
+1.  Front-end tier who will present the application to the user.
+2. Back-end tier who make the link between database and Frontend.
+3. DataBase tier where all the data will be stored.
+
+For this goals we have choice this architecture : 
+
+![InfraSchema](assets/Infra.drawio.svg)
+
+
 A AWS S3 Bucket is used for Terraform Backend to save the tfstate
 
 On each ressources tags are used :
@@ -12,7 +30,6 @@ On each ressources tags are used :
 - Terraform -> To identified ressource create with Terraform
 
 On AWS Console I have created a AWS Resource Groups to list them easily
-
 # Step
 
 ## 1 - Create Network modules
