@@ -1,4 +1,4 @@
-# AWS-3-Tier
+# AWS-3-Tier application infrastructure
 
 This project was inspired by [SwastikaAryal](https://medium.com/@swastikaaryal/deploy-3-tier-web-app-with-terraform-ansible-and-route53-a4bc8753a1cf) and [DhruvinSoni30](https://github.com/DhruvinSoni30/Terraform-AWS-3tier-Architecture/tree/main?tab=readme-ov-file).
 
